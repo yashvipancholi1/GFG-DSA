@@ -9,35 +9,35 @@ class Solution {
 public:
     int minChar(string str){
         //Write your code here
-     int n = str.size();
+        int n= str.size();
+        string s = str+"$";
+        reverse(str.begin(), str.end());
+        s = s+str;
+        int m = s.size();
+        vector<int> lps(2*n+1);
         
-        string Str = str+"$";
-         reverse(str.begin(),str.end());
-        Str = Str+str;
-        vector<int>lps(2*n+1);
         lps[0] = 0;
-        int i =1;
-       int m  = Str.size();
-        int len = 0;
+        int i=1;
+        int len =0;
+        
         while(i<m){
-            if(Str[i] == Str[len]){
+            if(s[i]==s[len]){
                 len++;
-                lps[i] = len;
+                lps[i]=len;
                 i++;
             }
-            else{
+            else {
                 if(len!=0){
                     len = lps[len-1];
                 }
-                else{
-                    
+                else {
                     lps[i]=0;
                     i++;
                 }
             }
         }
-        // int a = lps[n-1];
         return n-lps[m-1];
+        
     }
 };
 
