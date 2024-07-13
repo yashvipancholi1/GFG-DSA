@@ -7,55 +7,80 @@ class Solution {
   public:
     // Function to find the number of islands.
     
-    void bfs(int r, int c, vector<vector<int>> &vis, vector<vector<char>> &grid){
-        vis[r][c]=1;
+    public:
+  void dfs(int r, int c, vector<vector<int>>& vis, vector<vector<char>>& grid)
+  {
+      vis[r][c] = 1;
+      int n = grid.size();
+      int m = grid[0].size();
+      for(int delrow = -1; delrow<=1 ;delrow++)
+      {
+          for(int delcol = -1; delcol<=1 ;delcol++)
+          {
+              int nrow = r + delrow;
+              int ncol = c + delcol;
+              if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !vis[nrow][ncol] && grid[nrow][ncol]=='1')
+              {
+                  dfs(nrow, ncol, vis, grid);
+              }
+              
+          }
+      }
+  }
+  
+    void bfs(int r, int c, vector<vector<int>>& vis, vector<vector<char>>& grid)
+    {
+        vis[r][c] = 1;
         queue<pair<int,int>> q;
         q.push({r,c});
+        int n = grid.size();
+        int m = grid[0].size();
         
-        int n=grid.size(), m=grid[0].size();
-
-        
-        while(!q.empty()){
-            //extracting elements
+        while(!q.empty())
+        {
             int row = q.front().first;
             int col = q.front().second;
             q.pop();
-
             
-            
-            for(int delrow=-1; delrow<=1; delrow++){
-                for(int delcol=-1; delcol<=1; delcol++){
-                    int nbhrow = row+delrow;
-                    int nbhcol = col + delcol;
-                    if(nbhrow>=0 && nbhrow<n && nbhcol>=0 && nbhcol<m && grid[nbhrow][nbhcol]=='1' && !vis[nbhrow][nbhcol]){
-                        vis[nbhrow][nbhcol]=1;
-                        q.push({nbhrow, nbhcol});
-
+            for(int delrow = -1; delrow<=1 ;delrow++)
+            {
+                for(int delcol = -1; delcol<=1 ;delcol++)
+                {
+                    int nrow = row + delrow;
+                    int ncol = col + delcol;
+                    if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !vis[nrow][ncol] && grid[nrow][ncol]=='1')
+                    {
+                        vis[nrow][ncol]=1;
+                        q.push({nrow,ncol});
                     }
                 }
             }
         }
-        
     }
-    int numIslands(vector<vector<char>>& grid) {
-        // Code here
+  
+  
+  
+    // Function to find the number of islands.
+    int numIslands(vector<vector<char>>& grid) 
+    {
         int n = grid.size();
         int m = grid[0].size();
-        
-        int c=0;
-        vector<vector<int>> vis(n, vector<int>(m,0));
-        
-        for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                if(grid[i][j]=='1' && !vis[i][j]){
-                    c++;
-                    bfs(i,j,vis,grid);
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+        int cnt = 0;
+        for(int i = 0; i<n ;i++)
+        {
+            for(int j = 0; j<m ;j++)
+            {
+                if(!vis[i][j] && grid[i][j]=='1')
+                {
+                    dfs(i, j, vis, grid);
+                    cnt++;
                 }
             }
         }
-    
-        return c;
+        return cnt;
     }
+
 };
 
 //{ Driver Code Starts.
