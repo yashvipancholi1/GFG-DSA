@@ -8,24 +8,21 @@ class Solution{
     public:
     int longestUniqueSubsttr(string S){
         //code
-        
-        vector<int> mpp(26, 0);
-        
-        int left =0, right = 0;
-        int len = 0;
-        int n = S.length();
-        
+         int left=0,right=0;
+        vector<int>m(26);
+        int n=S.length();
+        int len=0;
         while(right<n){
-            if(mpp[S[right]-'a']==0){
-                len = max(len, right-left+1);
-                mpp[S[right++]-'a']++;
+            m[S[right]-'a']++;
+            if(m[S[right]-'a']==1) len=max(len,right-left+1);
+            while(m[S[right]-'a']>1 and left<=right){
+                m[S[left]-'a']--;
+                left++;
             }
-            else{
-                mpp[S[left++]-'a']--;
-            }
-            
+            right++;
         }
         return len;
+
     }
 };
 
